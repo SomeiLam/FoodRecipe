@@ -26,7 +26,7 @@ export default function WelcomeScreen() {
       300
     );
 
-    setTimeout(() => navigation.navigate("Home"), 2500);
+    setTimeout(() => navigation.navigate("Home"), 250);
   }, []);
 
   return (
@@ -41,7 +41,7 @@ export default function WelcomeScreen() {
           style={[styles.ring, { padding: ring1padding }]}
         >
           <Image
-            source={{uri:'https://cdn.pixabay.com/photo/2024/08/29/02/47/italian-9005494_1280.png'}}
+            source={{ uri: 'https://cdn.pixabay.com/photo/2024/08/29/02/47/italian-9005494_1280.png' }}
             style={styles.logo}
           />
         </Animated.View>

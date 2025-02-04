@@ -1,19 +1,24 @@
 import { View, Text, Pressable, Image, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import React from "react";
-import {widthPercentageToDP as wp, heightPercentageToDP as hp,} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp, } from "react-native-responsive-screen";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Recipe({ categories, foods }) {
   const navigation = useNavigation();
 
   const renderItem = ({ item, index }) => (
-<ArticleCard item={item} index={index} navigation={navigation} />
+    <ArticleCard item={item} index={index} navigation={navigation} />
   );
 
   return (
     <View style={styles.container}>
       <View testID="recipesDisplay">
-            
+        <FlatList
+          data={foods}
+          keyExtractor={(item) => item.idFood}
+          renderItem={renderItem}
+          numColumns={2}
+        />
       </View>
     </View>
   );
@@ -22,9 +27,19 @@ export default function Recipe({ categories, foods }) {
 const ArticleCard = ({ item, index, navigation }) => {
   return (
     <View
-      style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15}]} testID="articleDisplay"
+      style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15 }]} testID="articleDisplay"
     >
-   
+      <TouchableOpacity
+        onPress={() => navigation.navigate("RecipeDetail", { ...item })}
+      >
+        <Image source={{ uri: item.recipeImage }} style={styles.articleImage} />
+        <Text style={styles.articleText}>
+          {item.recipeName}
+        </Text>
+        <Text style={styles.articleDescription}>
+          {item.cookingDescription.length > 40 ? item.cookingDescription.slice(0, 40) + "..." : item.description}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -50,7 +65,7 @@ const styles = StyleSheet.create({
   },
   articleImage: {
     width: "100%",
-   
+    height: hp(35),
     borderRadius: 35,
     backgroundColor: "rgba(0, 0, 0, 0.05)", // bg-black/5
   },
